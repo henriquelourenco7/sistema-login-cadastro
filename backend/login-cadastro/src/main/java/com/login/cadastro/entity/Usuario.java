@@ -19,7 +19,7 @@ import jakarta.validation.constraints.Past;
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	@NotBlank
 	private String nome;
 	@NotBlank
@@ -34,12 +34,12 @@ public class Usuario {
 	private LocalDate data_nascimento;
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private TipoUsuario tipo_usuario;
+	private TipoUsuario tipo_usuario = TipoUsuario.USUARIO;
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private StatusUsuario status;
+	private StatusUsuario status = StatusUsuario.ATIVA;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
