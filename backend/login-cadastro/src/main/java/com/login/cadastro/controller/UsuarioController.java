@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.login.cadastro.entity.Usuario;
 import com.login.cadastro.service.UsuarioService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class UsuarioController {
 
@@ -17,7 +19,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/usuarios")
-	public Usuario cadastrar(@RequestBody Usuario usuario) {
+	public Usuario cadastrar(@RequestBody @Valid Usuario usuario) {
 		return usuarioService.cadastrar(usuario);
 	}
 }
