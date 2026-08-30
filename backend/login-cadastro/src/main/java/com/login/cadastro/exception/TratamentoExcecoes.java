@@ -1,6 +1,8 @@
 package com.login.cadastro.exception;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,9 @@ public class TratamentoExcecoes {
 	}
 
 	@ExceptionHandler(TelefoneJaCadastradoException.class)
-	public ResponseEntity<String> tratarTelefoneJaCadastrado(TelefoneJaCadastradoException exception){
+	public ResponseEntity<String> tratarTelefoneJaCadastrado(TelefoneJaCadastradoException exception) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
-		
+
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -31,15 +33,15 @@ public class TratamentoExcecoes {
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<String> tratarValidacaoArgumento(MethodArgumentNotValidException exception) {
+	public ResponseEntity<Map<String, String>> tratarValidacaoArgumento(MethodArgumentNotValidException exception) {
 
 		List<FieldError> erros = exception.getBindingResult().getFieldErrors();
 
-		String mensagem = "";
+		Map<String, String> mensagens = new HashMap<>();
 		for (FieldError erro : erros) {
-			mensagem += erro.getField() + ": " + erro.getDefaultMessage() + "\n";
+			mensagens.put(erro.getField(), erro.getDefaultMessage());
 		}
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagens);
 	}
 }
