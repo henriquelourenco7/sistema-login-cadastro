@@ -6,4 +6,5 @@ import com.login.cadastro.entity.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	boolean existsByEmail(String email);
+	boolean existsByTelefone(String telefone);
 }

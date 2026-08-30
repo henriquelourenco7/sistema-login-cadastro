@@ -19,6 +19,12 @@ public class TratamentoExcecoes {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
 	}
 
+	@ExceptionHandler(TelefoneJaCadastradoException.class)
+	public ResponseEntity<String> tratarTelefoneJaCadastrado(TelefoneJaCadastradoException exception){
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+		
+	}
+
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<String> tratarValidacao(ConstraintViolationException exception) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dados invalidos");
@@ -31,7 +37,7 @@ public class TratamentoExcecoes {
 
 		String mensagem = "";
 		for (FieldError erro : erros) {
-			mensagem  += erro.getField() + ": " + erro.getDefaultMessage() + "\n";
+			mensagem += erro.getField() + ": " + erro.getDefaultMessage() + "\n";
 		}
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
