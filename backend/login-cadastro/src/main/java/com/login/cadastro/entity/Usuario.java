@@ -28,6 +28,7 @@ public class Usuario {
 	@Email
 	private String email;
 	@NotBlank
+	@Pattern(regexp = "[0-9]{11}")
 	private String telefone;
 	@NotBlank
 	private String senha;
