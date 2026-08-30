@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.login.cadastro.entity.Usuario;
+import com.login.cadastro.dto.UsuarioRequest;
+import com.login.cadastro.dto.UsuarioResponse;
 import com.login.cadastro.service.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -19,7 +20,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/usuarios")
-	public Usuario cadastrar(@RequestBody @Valid Usuario usuario) {
+	public UsuarioResponse cadastrar(@RequestBody @Valid UsuarioRequest usuario) {
 		return usuarioService.cadastrar(usuario);
 	}
 }
