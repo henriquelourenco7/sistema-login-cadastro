@@ -3,9 +3,12 @@ package com.login.cadastro.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.login.cadastro.dto.LoginRequest;
+import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
 import com.login.cadastro.dto.UsuarioResponse;
 import com.login.cadastro.entity.Usuario;
+import com.login.cadastro.exception.CredenciaisInvalidasException;
 import com.login.cadastro.exception.EmailJaCadastradoException;
 import com.login.cadastro.exception.TelefoneJaCadastradoException;
 import com.login.cadastro.repository.UsuarioRepository;
@@ -23,9 +26,9 @@ public class UsuarioService {
 	}
 
 	public UsuarioResponse cadastrar(UsuarioRequest usuario) {
-		
+
 		Usuario novoUsuario = new Usuario();
-		
+
 		novoUsuario.setNome(usuario.getNome());
 		novoUsuario.setEmail(usuario.getEmail());
 		novoUsuario.setTelefone(usuario.getTelefone());
@@ -35,14 +38,29 @@ public class UsuarioService {
 		if (usuarioRepository.existsByEmail(usuario.getEmail())) {
 			throw new EmailJaCadastradoException("E-mail ja cadastrado");
 		}
-		
 
 		if (usuarioRepository.existsByTelefone(usuario.getTelefone())) {
 			throw new TelefoneJaCadastradoException("Telefone ja cadastrado");
 		}
-		
+
 		Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
 		return new UsuarioResponse(usuarioSalvo);
+	}
+
+	public LoginResponse login(LoginRequest usuario) {
+
+		Usuario usuarioEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
+
+		if (usuarioEncontrado == null) {
+
+			throw new CredenciaisInvalidasException("Email ou senha invalidos");
+		}
+
+		if (passwordEncoder.matches(usuario.getSenha(), usuarioEncontrado.getSenha())) {
+			return new LoginResponse(usuarioEncontrado);
+		}
+		throw new CredenciaisInvalidasException("Email ou senha invalidos");
+
 	}
 
 }

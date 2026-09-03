@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.login.cadastro.dto.LoginRequest;
+import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
 import com.login.cadastro.dto.UsuarioResponse;
 import com.login.cadastro.service.UsuarioService;
@@ -22,5 +24,10 @@ public class UsuarioController {
 	@PostMapping("/usuarios")
 	public UsuarioResponse cadastrar(@RequestBody @Valid UsuarioRequest usuario) {
 		return usuarioService.cadastrar(usuario);
+	}
+	
+	@PostMapping("/login")
+	public LoginResponse login(@RequestBody @Valid LoginRequest usuario) {
+		return usuarioService.login(usuario);
 	}
 }
