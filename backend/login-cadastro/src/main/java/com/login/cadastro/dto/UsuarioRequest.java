@@ -20,6 +20,8 @@ public class UsuarioRequest {
 	@Pattern(regexp = "[0-9]{11}")
 	private String telefone;
 	@NotBlank
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
+			message = "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.")
 	private String senha;
 	@NotNull
 	@Past
