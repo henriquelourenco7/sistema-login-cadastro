@@ -7,6 +7,7 @@ import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
 import com.login.cadastro.dto.UsuarioResponse;
+import com.login.cadastro.entity.StatusUsuario;
 import com.login.cadastro.entity.Usuario;
 import com.login.cadastro.exception.CredenciaisInvalidasException;
 import com.login.cadastro.exception.EmailJaCadastradoException;
@@ -56,7 +57,11 @@ public class UsuarioService {
 			throw new CredenciaisInvalidasException("Email ou senha invalidos");
 		}
 
-		if (passwordEncoder.matches(usuario.getSenha(), usuarioEncontrado.getSenha())) {
+		if (!passwordEncoder.matches(usuario.getSenha(), usuarioEncontrado.getSenha())) {
+			throw new CredenciaisInvalidasException("Email ou senha invalidos");
+		}
+
+		if (usuarioEncontrado.getStatus() == StatusUsuario.ATIVA) {
 			return new LoginResponse(usuarioEncontrado);
 		}
 		throw new CredenciaisInvalidasException("Email ou senha invalidos");
