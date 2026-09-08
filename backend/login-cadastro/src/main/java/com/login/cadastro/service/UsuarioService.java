@@ -7,11 +7,13 @@ import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
 import com.login.cadastro.dto.UsuarioResponse;
+import com.login.cadastro.entity.RecuperacaoSenha;
 import com.login.cadastro.entity.StatusUsuario;
 import com.login.cadastro.entity.Usuario;
 import com.login.cadastro.exception.CredenciaisInvalidasException;
 import com.login.cadastro.exception.EmailJaCadastradoException;
 import com.login.cadastro.exception.TelefoneJaCadastradoException;
+import com.login.cadastro.repository.RecuperacaoSenhaRepository;
 import com.login.cadastro.repository.UsuarioRepository;
 
 @Service
@@ -19,10 +21,13 @@ public class UsuarioService {
 
 	private final UsuarioRepository usuarioRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final RecuperacaoSenhaRepository recuperacaoSenhaRepository;
 
-	public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+	public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder,
+			RecuperacaoSenhaRepository recuperacaoSenhaRepository) {
 		this.usuarioRepository = usuarioRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.recuperacaoSenhaRepository = recuperacaoSenhaRepository;
 
 	}
 
@@ -66,6 +71,19 @@ public class UsuarioService {
 		}
 		throw new CredenciaisInvalidasException("Email ou senha invalidos");
 
+	}
+
+	public void solicitarRecuperacao(String email) {
+
+		Usuario usuario = usuarioRepository.findByEmail(email);
+
+		if (usuario == null) {
+
+		}
+		RecuperacaoSenha recuperacao = new RecuperacaoSenha();
+		recuperacao.setUsuario(usuario);
+
+		
 	}
 
 }
