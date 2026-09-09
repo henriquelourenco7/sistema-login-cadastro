@@ -60,7 +60,7 @@ A primeira versao tera:
 
 * Cadastro
 * Login
-* Recuperacao de senha
+* Recuperacao de senha por token enviado por email
 * Alteracao de dados
 * Bloqueio de usuarios
 * Banimento de usuarios
@@ -73,7 +73,6 @@ A primeira versao tera:
 
 Poderao ser adicionados futuramente:
 
-* Recuperacao de senha por token enviado por email
 * Foto de perfil
 * Historico de acoes administrativas
 * Novas funcionalidades para administradores
