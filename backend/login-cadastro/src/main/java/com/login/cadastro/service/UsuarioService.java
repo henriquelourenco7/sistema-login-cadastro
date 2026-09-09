@@ -1,5 +1,8 @@
 package com.login.cadastro.service;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +11,7 @@ import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
 import com.login.cadastro.dto.UsuarioResponse;
 import com.login.cadastro.entity.RecuperacaoSenha;
+import com.login.cadastro.entity.StatusRecuperacaoSenha;
 import com.login.cadastro.entity.StatusUsuario;
 import com.login.cadastro.entity.Usuario;
 import com.login.cadastro.exception.CredenciaisInvalidasException;
@@ -78,12 +82,31 @@ public class UsuarioService {
 		Usuario usuario = usuarioRepository.findByEmail(email);
 
 		if (usuario == null) {
+			return;
+		}
+
+		RecuperacaoSenha recuperacaoPendente = recuperacaoSenhaRepository.findByUsuarioAndStatus(usuario,
+				StatusRecuperacaoSenha.PENDENTE);
+
+		if (recuperacaoPendente == null) {
+
+			RecuperacaoSenha recuperacao = new RecuperacaoSenha();
+			recuperacao.setUsuario(usuario);
+
+			SecureRandom random = new SecureRandom();
+			int token = 100000 + random.nextInt(900000);
+			String tokenString = String.valueOf(token);
+			recuperacao.setToken(tokenString);
+
+			LocalDateTime expiracao = LocalDateTime.now().plusMinutes(15);
+			recuperacao.setExpiracao(expiracao);
+
+			recuperacao.setStatus(StatusRecuperacaoSenha.PENDENTE);
+
+			recuperacaoSenhaRepository.save(recuperacao);
 
 		}
-		RecuperacaoSenha recuperacao = new RecuperacaoSenha();
-		recuperacao.setUsuario(usuario);
 
-		
 	}
 
 }
