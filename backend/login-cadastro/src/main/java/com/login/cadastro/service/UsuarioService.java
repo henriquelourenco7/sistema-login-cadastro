@@ -17,6 +17,7 @@ import com.login.cadastro.entity.Usuario;
 import com.login.cadastro.exception.CredenciaisInvalidasException;
 import com.login.cadastro.exception.EmailJaCadastradoException;
 import com.login.cadastro.exception.TelefoneJaCadastradoException;
+import com.login.cadastro.exception.TokenInvalidoException;
 import com.login.cadastro.repository.RecuperacaoSenhaRepository;
 import com.login.cadastro.repository.UsuarioRepository;
 
@@ -107,6 +108,23 @@ public class UsuarioService {
 
 		}
 
+	}
+
+	public void validarToken(String token) {
+
+		RecuperacaoSenha tokenRecebido = recuperacaoSenhaRepository.findByToken(token);
+
+		if (tokenRecebido == null) {
+			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
+		}
+
+		if (tokenRecebido.getStatus() == StatusRecuperacaoSenha.USADO) {
+			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
+		}
+
+		if (tokenRecebido.getExpiracao().isBefore(LocalDateTime.now())) {
+			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
+		}
 	}
 
 }
