@@ -44,10 +44,15 @@ public class TratamentoExcecoes {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagens);
 	}
-	
+
 	@ExceptionHandler(CredenciaisInvalidasException.class)
-	public ResponseEntity<String> tratarCredenciasInvalidas(CredenciaisInvalidasException exception){
+	public ResponseEntity<String> tratarCredenciasInvalidas(CredenciaisInvalidasException exception) {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
-		
+
+	}
+
+	@ExceptionHandler(TokenInvalidoException.class)
+	public ResponseEntity<String> tratarTokenInvalido(TokenInvalidoException exception){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
 	}
 }

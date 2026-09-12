@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.RecuperacaoSenhaRequest;
+import com.login.cadastro.dto.TokenRequest;
 import com.login.cadastro.dto.UsuarioRequest;
 import com.login.cadastro.dto.UsuarioResponse;
 import com.login.cadastro.service.UsuarioService;
@@ -35,5 +36,11 @@ public class UsuarioController {
 	@PostMapping("/recuperacao-senha")
 	public void solicitarRecuperacao(@RequestBody @Valid RecuperacaoSenhaRequest usuario) {
 		usuarioService.solicitarRecuperacao(usuario.getEmail());
+
+	}
+	
+	@PostMapping("/validar-token")
+	public void validarToken(@RequestBody TokenRequest token) {
+		usuarioService.validarToken(token.getToken());
 	}
 }

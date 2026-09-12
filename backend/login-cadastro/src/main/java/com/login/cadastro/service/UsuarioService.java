@@ -86,10 +86,10 @@ public class UsuarioService {
 			return;
 		}
 
-		RecuperacaoSenha recuperacaoPendente = recuperacaoSenhaRepository.findByUsuarioAndStatus(usuario,
+		RecuperacaoSenha recuperacaoPendente = recuperacaoSenhaRepository.findFirstByUsuarioAndStatusOrderByExpiracaoDesc(usuario,
 				StatusRecuperacaoSenha.PENDENTE);
 
-		if (recuperacaoPendente == null) {
+		if (recuperacaoPendente == null || recuperacaoPendente.getExpiracao().isBefore(LocalDateTime.now())) {
 
 			RecuperacaoSenha recuperacao = new RecuperacaoSenha();
 			recuperacao.setUsuario(usuario);

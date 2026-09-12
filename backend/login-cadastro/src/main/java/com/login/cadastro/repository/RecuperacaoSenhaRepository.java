@@ -8,6 +8,6 @@ import com.login.cadastro.entity.Usuario;
 
 public interface RecuperacaoSenhaRepository extends JpaRepository<RecuperacaoSenha, Integer> {
 	RecuperacaoSenha findByToken(String token);
-	RecuperacaoSenha findByUsuarioAndStatus(Usuario usuario, StatusRecuperacaoSenha status);
+	RecuperacaoSenha findFirstByUsuarioAndStatusOrderByExpiracaoDesc(Usuario usuario, StatusRecuperacaoSenha status);
 
 }
