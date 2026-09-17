@@ -86,8 +86,8 @@ public class UsuarioService {
 			return;
 		}
 
-		RecuperacaoSenha recuperacaoPendente = recuperacaoSenhaRepository.findFirstByUsuarioAndStatusOrderByExpiracaoDesc(usuario,
-				StatusRecuperacaoSenha.PENDENTE);
+		RecuperacaoSenha recuperacaoPendente = recuperacaoSenhaRepository
+				.findFirstByUsuarioAndStatusOrderByExpiracaoDesc(usuario, StatusRecuperacaoSenha.PENDENTE);
 
 		if (recuperacaoPendente == null || recuperacaoPendente.getExpiracao().isBefore(LocalDateTime.now())) {
 
@@ -123,8 +123,12 @@ public class UsuarioService {
 		}
 
 		if (tokenRecebido.getExpiracao().isBefore(LocalDateTime.now())) {
+
+			tokenRecebido.setStatus(StatusRecuperacaoSenha.EXPIRADO);
+			recuperacaoSenhaRepository.save(tokenRecebido);
 			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
 		}
+
 	}
 
 }
