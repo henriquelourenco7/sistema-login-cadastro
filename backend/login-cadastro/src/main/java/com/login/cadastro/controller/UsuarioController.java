@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.RecuperacaoSenhaRequest;
@@ -29,18 +30,23 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/login")
-	public LoginResponse login(@RequestBody @Valid LoginRequest usuario) {
-		return usuarioService.login(usuario);
+	public LoginResponse login(@RequestBody @Valid LoginRequest login) {
+		return usuarioService.login(login);
 	}
 
 	@PostMapping("/recuperacao-senha")
-	public void solicitarRecuperacao(@RequestBody @Valid RecuperacaoSenhaRequest usuario) {
-		usuarioService.solicitarRecuperacao(usuario.getEmail());
+	public void solicitarRecuperacao(@RequestBody @Valid RecuperacaoSenhaRequest recuperacao) {
+		usuarioService.solicitarRecuperacao(recuperacao.getEmail());
 
 	}
-	
+
 	@PostMapping("/validar-token")
 	public void validarToken(@RequestBody TokenRequest token) {
 		usuarioService.validarToken(token.getToken());
+	}
+
+	@PostMapping("/recuperacao-senha/redefinir")
+	public void alterarSenhaRecuperacao(@RequestBody @Valid AlterarSenhaRecuperacaoRequest dados) {
+		usuarioService.alterarSenhaRecuperacao(dados);
 	}
 }

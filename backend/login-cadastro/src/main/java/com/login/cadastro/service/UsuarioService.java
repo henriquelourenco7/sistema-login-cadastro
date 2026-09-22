@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
@@ -128,6 +129,35 @@ public class UsuarioService {
 			recuperacaoSenhaRepository.save(tokenRecebido);
 			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
 		}
+
+	}
+
+	public void alterarSenhaRecuperacao(AlterarSenhaRecuperacaoRequest dados) {
+
+		RecuperacaoSenha tokenRecebido = recuperacaoSenhaRepository.findByToken(dados.getToken());
+
+		if (tokenRecebido == null) {
+			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
+		}
+
+		if (tokenRecebido.getStatus() == StatusRecuperacaoSenha.USADO) {
+			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
+		}
+
+		if (tokenRecebido.getExpiracao().isBefore(LocalDateTime.now())) {
+
+			tokenRecebido.setStatus(StatusRecuperacaoSenha.EXPIRADO);
+			recuperacaoSenhaRepository.save(tokenRecebido);
+			throw new TokenInvalidoException("Token de recuperação inexistente ou invalido");
+		}
+
+		Usuario usuario = tokenRecebido.getUsuario();
+		usuario.setSenha(passwordEncoder.encode(dados.getNovaSenha()));
+		
+		usuarioRepository.save(usuario);
+		
+		tokenRecebido.setStatus(StatusRecuperacaoSenha.USADO);
+		recuperacaoSenhaRepository.save(tokenRecebido);
 
 	}
 

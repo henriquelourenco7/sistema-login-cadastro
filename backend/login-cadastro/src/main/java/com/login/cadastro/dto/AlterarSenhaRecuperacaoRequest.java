@@ -1,0 +1,27 @@
+package com.login.cadastro.dto;
+
+import jakarta.validation.constraints.NotBlank;
+
+public class AlterarSenhaRecuperacaoRequest {
+
+	@NotBlank
+	String token;
+	@NotBlank
+	String novaSenha;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getNovaSenha() {
+		return novaSenha;
+	}
+
+	public void setNovaSenha(String novaSenha) {
+		this.novaSenha = novaSenha;
+	}
+}
