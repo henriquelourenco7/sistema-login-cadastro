@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.login.cadastro.dto.AlterarEmailRequest;
 import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
+import com.login.cadastro.dto.AlterarTelefoneRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.RecuperacaoSenhaRequest;
@@ -56,5 +57,10 @@ public class UsuarioController {
 	@PutMapping("/usuarios/{id}/email")
 	public void alterarEmail(@PathVariable Integer id, @RequestBody @Valid AlterarEmailRequest email) {
 		usuarioService.alterarEmail(id, email);
+	}
+
+	@PutMapping("/usuarios/{id}/telefone")
+	public void alterarTelefone(@PathVariable Integer id, @RequestBody @Valid AlterarTelefoneRequest telefone) {
+		usuarioService.alterarTelefone(id, telefone);
 	}
 }

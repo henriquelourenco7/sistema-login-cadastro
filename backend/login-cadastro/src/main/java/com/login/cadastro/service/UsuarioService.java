@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.login.cadastro.dto.AlterarEmailRequest;
 import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
+import com.login.cadastro.dto.AlterarTelefoneRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
 import com.login.cadastro.dto.UsuarioRequest;
@@ -175,6 +176,20 @@ public class UsuarioService {
 		usuario.setEmail(email.getNovoEmail());
 		usuarioRepository.save(usuario);
 
+	}
+
+	public void alterarTelefone(Integer id, AlterarTelefoneRequest telefone) {
+
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuario nao encontrado"));
+
+		if (usuarioRepository.existsByTelefone(telefone.getNovoTelefone())) {
+			throw new TelefoneJaCadastradoException("Telefone ja cadastrado");
+
+		}
+
+		usuario.setTelefone(telefone.getNovoTelefone());
+		usuarioRepository.save(usuario);
 	}
 
 }
