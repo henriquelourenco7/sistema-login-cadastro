@@ -1,9 +1,12 @@
 package com.login.cadastro.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.login.cadastro.dto.AlterarEmailRequest;
 import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
@@ -48,5 +51,10 @@ public class UsuarioController {
 	@PostMapping("/recuperacao-senha/redefinir")
 	public void alterarSenhaRecuperacao(@RequestBody @Valid AlterarSenhaRecuperacaoRequest dados) {
 		usuarioService.alterarSenhaRecuperacao(dados);
+	}
+
+	@PutMapping("/usuarios/{id}/email")
+	public void alterarEmail(@PathVariable Integer id, @RequestBody @Valid AlterarEmailRequest email) {
+		usuarioService.alterarEmail(id, email);
 	}
 }

@@ -7,7 +7,7 @@ public class RecuperacaoSenhaRequest {
 
 	@NotBlank
 	@Email
-	String email;
+	private String email;
 
 	public String getEmail() {
 		return email;

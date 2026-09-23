@@ -52,7 +52,12 @@ public class TratamentoExcecoes {
 	}
 
 	@ExceptionHandler(TokenInvalidoException.class)
-	public ResponseEntity<String> tratarTokenInvalido(TokenInvalidoException exception){
+	public ResponseEntity<String> tratarTokenInvalido(TokenInvalidoException exception) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+	}
+
+	@ExceptionHandler(UsuarioNaoEncontradoException.class)
+	public ResponseEntity<String> tratarUsuarioNaoEncontrado(UsuarioNaoEncontradoException exception) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
 	}
 }

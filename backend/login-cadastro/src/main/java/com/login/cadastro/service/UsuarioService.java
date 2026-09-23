@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.login.cadastro.dto.AlterarEmailRequest;
 import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
@@ -19,6 +20,7 @@ import com.login.cadastro.exception.CredenciaisInvalidasException;
 import com.login.cadastro.exception.EmailJaCadastradoException;
 import com.login.cadastro.exception.TelefoneJaCadastradoException;
 import com.login.cadastro.exception.TokenInvalidoException;
+import com.login.cadastro.exception.UsuarioNaoEncontradoException;
 import com.login.cadastro.repository.RecuperacaoSenhaRepository;
 import com.login.cadastro.repository.UsuarioRepository;
 
@@ -153,11 +155,25 @@ public class UsuarioService {
 
 		Usuario usuario = tokenRecebido.getUsuario();
 		usuario.setSenha(passwordEncoder.encode(dados.getNovaSenha()));
-		
+
 		usuarioRepository.save(usuario);
-		
+
 		tokenRecebido.setStatus(StatusRecuperacaoSenha.USADO);
 		recuperacaoSenhaRepository.save(tokenRecebido);
+
+	}
+
+	public void alterarEmail(Integer id, AlterarEmailRequest email) {
+
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuario nao encontrado"));
+
+		if (usuarioRepository.existsByEmail(email.getNovoEmail())) {
+			throw new EmailJaCadastradoException("Email ja cadastrado");
+		}
+
+		usuario.setEmail(email.getNovoEmail());
+		usuarioRepository.save(usuario);
 
 	}
 

@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 public class AlterarSenhaRecuperacaoRequest {
 
 	@NotBlank
-	String token;
+	private String token;
 	@NotBlank
-	String novaSenha;
+	private String novaSenha;
 
 	public String getToken() {
 		return token;
