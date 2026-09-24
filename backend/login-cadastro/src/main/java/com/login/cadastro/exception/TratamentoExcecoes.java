@@ -60,4 +60,10 @@ public class TratamentoExcecoes {
 	public ResponseEntity<String> tratarUsuarioNaoEncontrado(UsuarioNaoEncontradoException exception) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
 	}
+
+	@ExceptionHandler(SenhaInvalidaException.class)
+	public ResponseEntity<String> tratarSenhaInvalida(SenhaInvalidaException exception) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
+	}
+
 }

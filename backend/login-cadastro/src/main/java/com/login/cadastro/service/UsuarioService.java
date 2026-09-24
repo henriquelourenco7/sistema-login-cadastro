@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.login.cadastro.dto.AlterarEmailRequest;
 import com.login.cadastro.dto.AlterarSenhaRecuperacaoRequest;
+import com.login.cadastro.dto.AlterarSenhaRequest;
 import com.login.cadastro.dto.AlterarTelefoneRequest;
 import com.login.cadastro.dto.LoginRequest;
 import com.login.cadastro.dto.LoginResponse;
@@ -19,6 +20,7 @@ import com.login.cadastro.entity.StatusUsuario;
 import com.login.cadastro.entity.Usuario;
 import com.login.cadastro.exception.CredenciaisInvalidasException;
 import com.login.cadastro.exception.EmailJaCadastradoException;
+import com.login.cadastro.exception.SenhaInvalidaException;
 import com.login.cadastro.exception.TelefoneJaCadastradoException;
 import com.login.cadastro.exception.TokenInvalidoException;
 import com.login.cadastro.exception.UsuarioNaoEncontradoException;
@@ -189,6 +191,23 @@ public class UsuarioService {
 		}
 
 		usuario.setTelefone(telefone.getNovoTelefone());
+		usuarioRepository.save(usuario);
+	}
+
+	public void alterarSenha(Integer id, AlterarSenhaRequest senha) {
+
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuario nao encontrado"));
+
+		if (!passwordEncoder.matches(senha.getSenhaAtual(), usuario.getSenha())) {
+			throw new SenhaInvalidaException("Senha invalida");
+		}
+
+		if (passwordEncoder.matches(senha.getSenhaNova(), usuario.getSenha())) {
+			throw new SenhaInvalidaException("Senha invalida");
+		}
+
+		usuario.setSenha(passwordEncoder.encode(senha.getSenhaNova()));
 		usuarioRepository.save(usuario);
 	}
 
