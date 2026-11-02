@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [FormsModule],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
@@ -10,11 +10,21 @@ import { RouterOutlet } from '@angular/router';
 export class App {
   protected readonly title = signal('frontend');
 
-  entrar(){
-    alert('botão entrar clicado!')
-  }
 
   mensagem = 'Entre com seus dados para continuar';
-  botaoDesabilitado = true;
+  email = '';
+  senha = '';
+
+  entrar(){
+    if (!this.email || !this.senha){
+      alert('Preencha o e-mail e a senha.')
+      return;
+    }
+    alert(`Email capturado: ${this.email}`);
+    
+  }
+
   
+  botaoDesabilitado = true;
+
 }

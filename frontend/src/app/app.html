@@ -2,15 +2,32 @@
 
 <h2>{{ mensagem }}</h2>
 
+<form #formulario="ngForm">
 <div>
   <label>Email:</label>
-  <input type="email" placeholder="Digite seu email:">
+  <input type="email" placeholder="Digite seu email:" [(ngModel)]="email" name="email" email required>
+    @if (formulario.controls['email']?.hasError('required') && formulario.controls['email']?.touched) {
+      <p>O e-mail é obrigatório.</p>
+    }
+
+    @if (formulario.controls['email']?.hasError('email') && formulario.controls['email']?.touched) {
+      <p>Digite um e-mail válido.</p>
+    }
 </div>
 
 <div>
   <label>Senha:</label>
-  <input type="password" placeholder="Digite sua senha:">
+  <input type="password" placeholder="Digite sua senha:" [(ngModel)]="senha" name="senha" required minlength="8">
+    @if (formulario.controls['senha']?.hasError('required') && formulario.controls['senha']?.touched){
+      <p>A senha é obrigatória.</p>
+    }
+
+    @if (formulario.controls['senha']?.hasError('minlength') && formulario.controls['senha']?.touched){
+      <p>A senha precisa ter pelo menos 8 caracteres.</p>
+    }
 </div>
 
-<button (click)="entrar()">Entrar</button>
-<button [disbaled]="botaoDesabilitado">Cadastrar</button>
+
+  <button (click)="entrar()" [disabled]="formulario.invalid">Entrar</button>
+  <button [disbaled]="formulario.invalid">Cadastrar</button>
+</form>
