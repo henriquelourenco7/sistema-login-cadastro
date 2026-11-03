@@ -1,30 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Login } from './login/login';
 
 @Component({
-  imports: [FormsModule],
+  imports: [Login],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('frontend');
-
-
-  mensagem = 'Entre com seus dados para continuar';
-  email = '';
-  senha = '';
-
-  entrar(){
-    if (!this.email || !this.senha){
-      alert('Preencha o e-mail e a senha.')
-      return;
-    }
-    alert(`Email capturado: ${this.email}`);
-    
-  }
-
-  
-  botaoDesabilitado = true;
-
-}
+export class App {}
