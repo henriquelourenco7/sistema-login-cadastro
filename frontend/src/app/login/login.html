@@ -1,4 +1,5 @@
-<h2>{{ mensagem }}</h2>
+<h1>Entrar na sua conta</h1>
+<!-- <h2>{{ mensagem }}</h2> -->
 
 <form #formulario="ngForm" (ngSubmit)="entrar()">
 <div>
@@ -27,6 +28,6 @@
 
 
   <button type="submit" [disabled]="formulario.invalid">Entrar</button>
-  <button type="button" [disabled]="formulario.invalid">Cadastrar</button>
+  <button type="button">Cadastrar</button>
 </form>
 

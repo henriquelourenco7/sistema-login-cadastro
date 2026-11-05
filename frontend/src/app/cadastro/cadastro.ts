@@ -10,4 +10,11 @@ import { FormsModule } from '@angular/forms';
 export class Cadastro {
   nome: string = '';
   email: string ='';
+  senha: string = '';
+  telefone: string = '';
+  dataNascimento: string = '';
+
+  cadastrar(){
+    alert('Cadastro enviado');
+  }
 }
