@@ -1,34 +1,63 @@
-<h1>Entrar na sua conta</h1>
-<!-- <h2>{{ mensagem }}</h2> -->
 
-<form #formulario="ngForm" (ngSubmit)="entrar()">
-<div>
-  <label>Email:</label>
-  <input type="email" placeholder="Digite seu email:" [(ngModel)]="email" name="email" email required>
-    @if (formulario.controls['email']?.hasError('required') && formulario.controls['email']?.touched) {
-      <p>O e-mail é obrigatório.</p>
-    }
+<div class="auth-container">
+  <div class="auth-card">
 
-    @if (formulario.controls['email']?.hasError('email') && formulario.controls['email']?.touched) {
-      <p>Digite um e-mail válido.</p>
-    }
+    <h1 class="auth-title">Entrar na sua conta</h1>
+
+    <form class="auth-form" #formulario="ngForm" (ngSubmit)="entrar()">
+
+      <div class="form-group">
+        <label class="form-label">Email:</label>
+
+        <input
+          class="form-input"
+          type="email"
+          placeholder="Digite seu email"
+          [(ngModel)]="email"
+          name="email"
+          email
+          required
+        >
+
+        @if (formulario.controls['email']?.hasError('required') && formulario.controls['email']?.touched) {
+          <p class="form-error">O e-mail é obrigatório.</p>
+        }
+
+        @if (formulario.controls['email']?.hasError('email') && formulario.controls['email']?.touched) {
+          <p class="form-error">Digite um e-mail válido.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Senha:</label>
+
+        <input
+          class="form-input"
+          type="password"
+          placeholder="Digite sua senha"
+          [(ngModel)]="senha"
+          name="senha"
+          required
+          minlength="8"
+        >
+
+        @if (formulario.controls['senha']?.hasError('required') && formulario.controls['senha']?.touched) {
+          <p class="form-error">A senha é obrigatória.</p>
+        }
+
+        @if (formulario.controls['senha']?.hasError('minlength') && formulario.controls['senha']?.touched) {
+          <p class="form-error">A senha precisa ter pelo menos 8 caracteres.</p>
+        }
+      </div>
+
+      <button class="auth-button" type="submit" [disabled]="formulario.invalid">
+        Entrar
+      </button>
+
+      <a class="auth-link" routerLink="/cadastro">
+        Não tem conta? Cadastre-se
+      </a>
+
+    </form>
+  </div>
 </div>
-
-<div>
-  <label>Senha:</label>
-  <input type="password" placeholder="Digite sua senha:" [(ngModel)]="senha" name="senha" required minlength="8">
-    @if (formulario.controls['senha']?.hasError('required') && formulario.controls['senha']?.touched){
-      <p>A senha é obrigatória.</p>
-    }
-
-    @if (formulario.controls['senha']?.hasError('minlength') && formulario.controls['senha']?.touched){
-      <p>A senha precisa ter pelo menos 8 caracteres.</p>
-    }
-</div>
-
-
-  <button type="submit" [disabled]="formulario.invalid">Entrar</button>
-  <a routerLink="/cadastro">Não tem conta? Cadastre-se</a>
-
-</form>
-
