@@ -1,9 +1,9 @@
 package com.login.cadastro;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Assertions;
 
 import com.login.cadastro.security.JwtService;
 
@@ -18,5 +18,14 @@ public class JwtServiceTest {
 		String token = jwtService.generateToken("henrique@email.com");
 		Assertions.assertNotNull(token);
 
+	}
+	
+	@Test
+	public void deveExtrairUsernameDoToken() {
+		String valorEsperado = "henrique@email.com";
+		String token = jwtService.generateToken(valorEsperado);
+		String valorObtido = jwtService.extractUsername(token);
+		
+		Assertions.assertEquals(valorEsperado, valorObtido);
 	}
 }

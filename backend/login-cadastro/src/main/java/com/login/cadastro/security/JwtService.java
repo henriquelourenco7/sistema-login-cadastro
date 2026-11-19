@@ -35,4 +35,15 @@ public class JwtService {
 			.compact();
 
 	}
+	
+	public String extractUsername(String token) {
+		return Jwts.parser()
+			.verifyWith(getSignInKey())
+			.build()
+			.parseSignedClaims(token)
+			.getPayload()
+			.getSubject();
+		
+	}
 }
+  
