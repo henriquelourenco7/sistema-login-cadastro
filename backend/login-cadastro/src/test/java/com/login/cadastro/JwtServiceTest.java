@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.login.cadastro.security.JwtService;
 
+import io.jsonwebtoken.security.SignatureException;
+
 @SpringBootTest
 public class JwtServiceTest {
 
@@ -27,5 +29,15 @@ public class JwtServiceTest {
 		String valorObtido = jwtService.extractUsername(token);
 		
 		Assertions.assertEquals(valorEsperado, valorObtido);
+	}
+	
+	@Test
+	public void deveRejeitarTokenAdulterado() {
+		String token = jwtService.generateToken("henrique@email.com");
+		String tokenAletrado = token.replace("a", "b");
+		
+		Assertions.assertThrows(SignatureException.class,() -> {
+			jwtService.extractUsername(tokenAletrado);
+		});
 	}
 }
