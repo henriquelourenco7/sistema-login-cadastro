@@ -10,7 +10,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.login.cadastro.security.JwtAuthenticationFilter;
+import com.login.cadastro.security.JwtService;
 import com.login.cadastro.security.UsuarioDetailsService;
 
 @Configuration
@@ -30,13 +33,19 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider) throws Exception {
+	public JwtAuthenticationFilter jwtAuthenticationFilter (JwtService jwtService, UsuarioDetailsService usuarioDetailsService) {
+		return new JwtAuthenticationFilter(jwtService,usuarioDetailsService);
+	}
+	
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 		http
 			.csrf(csrf -> csrf.disable())
 			.sessionManagement(session -> 
 		    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			)
 			.authenticationProvider(authenticationProvider)
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers(
 			             "/usuarios",
@@ -56,5 +65,6 @@ public class SecurityConfig {
 			AuthenticationConfiguration configuration) throws Exception {
 		return configuration.getAuthenticationManager();
 	}
+	
 	
 }
