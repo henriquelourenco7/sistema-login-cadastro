@@ -25,7 +25,7 @@ public class JwtService {
 
 		Date dataAtual = new Date();
 
-		Date dataExpiracao = new Date(dataAtual.getTime() + (60 * 24) * (60 * 1000));
+		Date dataExpiracao = new Date(dataAtual.getTime() + (60  * 60 * 1000));
 		
 		return Jwts.builder()
 			.subject(email)

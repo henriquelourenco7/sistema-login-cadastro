@@ -26,6 +26,7 @@ import com.login.cadastro.exception.TokenInvalidoException;
 import com.login.cadastro.exception.UsuarioNaoEncontradoException;
 import com.login.cadastro.repository.RecuperacaoSenhaRepository;
 import com.login.cadastro.repository.UsuarioRepository;
+import com.login.cadastro.security.JwtService;
 
 @Service
 public class UsuarioService {
@@ -33,12 +34,14 @@ public class UsuarioService {
 	private final UsuarioRepository usuarioRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final RecuperacaoSenhaRepository recuperacaoSenhaRepository;
+	private final JwtService jwtService;
 
 	public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder,
-			RecuperacaoSenhaRepository recuperacaoSenhaRepository) {
+			RecuperacaoSenhaRepository recuperacaoSenhaRepository, JwtService jwtService) {
 		this.usuarioRepository = usuarioRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.recuperacaoSenhaRepository = recuperacaoSenhaRepository;
+		this.jwtService = jwtService;
 
 	}
 
@@ -78,7 +81,8 @@ public class UsuarioService {
 		}
 
 		if (usuarioEncontrado.getStatus() == StatusUsuario.ATIVA) {
-			return new LoginResponse(usuarioEncontrado);
+			String token = jwtService.generateToken(usuarioEncontrado.getEmail());
+			return new LoginResponse(usuarioEncontrado, token);
 		}
 		throw new CredenciaisInvalidasException("Email ou senha invalidos");
 

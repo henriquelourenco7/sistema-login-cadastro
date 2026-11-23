@@ -1,5 +1,6 @@
 package com.login.cadastro.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,5 +69,10 @@ public class UsuarioController {
 	@PutMapping("/usuarios/{id}/senha")
 	public void alterarSenha(@PathVariable Integer id, @RequestBody @Valid AlterarSenhaRequest senha) {
 		usuarioService.alterarSenha(id, senha);
+	}
+	
+	@GetMapping("/teste-autenticacao")
+	public String testeAutenticacao() {
+	    return "Autenticado com sucesso!";
 	}
 }

@@ -6,6 +6,7 @@ public class LoginResponse {
 
 	private String mensagem = "Bem vindo";
 	private String nome;
+	private String token;
 
 	public String getMensagem() {
 		return mensagem;
@@ -15,7 +16,12 @@ public class LoginResponse {
 		return nome;
 	}
 
-	public LoginResponse(Usuario usuario) {
+	public LoginResponse(Usuario usuario, String token) {
 		this.nome = usuario.getNome();
+		this.token = token;
+	}
+	
+	public String getToken() {
+		return token;
 	}
 }
