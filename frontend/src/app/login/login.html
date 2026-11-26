@@ -4,6 +4,9 @@
 
     <h1 class="auth-title">Entrar na sua conta</h1>
 
+    @if (erroLogin) {
+      <p class="form-error">{{ mensagem }}</p>
+    }
     <form class="auth-form" #formulario="ngForm" (ngSubmit)="entrar()">
 
       <div class="form-group">
@@ -17,7 +20,7 @@
           name="email"
           email
           required
-        >
+        >a
 
         @if (formulario.controls['email']?.hasError('required') && formulario.controls['email']?.touched) {
           <p class="form-error">O e-mail é obrigatório.</p>
