@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Auth } from '../services/auth';
 
 @Component({
   imports: [FormsModule, RouterLink],
@@ -9,6 +10,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './login.html',
 })
 export class Login {
+
+constructor(private auth: Auth) {}
   
 mensagem = 'Entre com seus dados para continuar';
 
@@ -21,6 +24,8 @@ entrar() {
     return;
   }
 
-  alert(`Email capturado: ${this.email}`);
+  this.auth.login(this.email, this.senha).subscribe((resposta) => {
+    console.log(resposta);
+  })
 }
 }
